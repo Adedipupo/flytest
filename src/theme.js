@@ -10,12 +10,12 @@ const customTheme = createTheme({
     },
     palette: {
       primary: {
-        main: '#00378A',
-        light: '#E9EEF5',
+        main: '#BE0C8A',
+        light: '',
       },
       secondary: {
-        main: '#092C5F',
-        light: '#E9EEF5',
+        main: '#722A8D',
+        light: '',
       },
     },
   })
