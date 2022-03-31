@@ -1,5 +1,5 @@
-import Button from './controls.js/Button';
-import Input from './controls.js/Input';
+import Button from './controls/Button';
+import Input from './controls/Input';
 
 export const Controls = {
     Button,

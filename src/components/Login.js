@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Grid, Link, Typography } from "@mui/material";
-import { Controls } from "./Helpers/Control";
+import { Controls } from "./Helpers/Controls";
 import { Form, useForm } from "./Helpers/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
