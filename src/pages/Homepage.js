@@ -4,6 +4,7 @@ import {
   Typography
 } from "@mui/material";
 import Login from "../components/Login";
+import Navbar from "../components/Navbar";
 
 
 const wholePageStyle = {
@@ -13,9 +14,8 @@ const wholePageStyle = {
 export default function Homepage(props) {
   return (
     <Box sx={wholePageStyle}>
-        <Typography variant="h2">Welcome, User 1</Typography>
         <Box>
-            <Login />
+            <Navbar/>
         </Box>
     </Box>
   );
