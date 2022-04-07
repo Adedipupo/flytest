@@ -27,28 +27,22 @@ const buttonStyles2 = {
     backgroundColor: "#722A8D",
     textTransform: "none",
     borderRadius: '5rem',
-    borderColor: "#fff"
+    borderColor: "#fff",
+    marginRight : "1rem"
   };
 const pages = ['Mr Boku', 'Boku flight', 'Boku hotels', 'Boku Tours'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   return (
     <AppBar position="static" sx={appMain}>
@@ -62,7 +56,6 @@ const Navbar = () => {
           >
             LOGO
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -107,12 +100,12 @@ const Navbar = () => {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1,ml:8, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, ml: 2, color: 'white',textTransform: 'none', display: 'block' }}
               >
                 {page}
               </Button>
