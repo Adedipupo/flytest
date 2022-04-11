@@ -13,10 +13,10 @@ export default function Input(props) {
       value={value}
       onChange={onChange}
       {...other}
-      InputLabelProps={{
-        shrink: true
-      }}
-      inputProps={{style: {fontSize: 13}}} 
+      // InputLabelProps={{
+      //   shrink: true
+      // }}
+      // inputProps={{style: {width: '100%'}}} 
     />
   );
 }
