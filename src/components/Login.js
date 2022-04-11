@@ -1,34 +1,87 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Grid, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Grid,
+  Link,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { Controls } from "./Helpers/Controls";
 import { Form, useForm } from "./Helpers/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { login } from "../actions/userActions";
+import SignIn from "../assets/svg/signinbg.svg";
+import Logo from "../assets/svg/siginlogo.svg";
+import Button from "./Helpers/controls/Button";
 
 const formInitialValues = {
   email: "",
   password: "",
 };
+const heroContent = {
+  background: `url(${SignIn})`,
+  height: "100vh",
+};
+const logo = {
+  position: "relative",
+  top: "20%",
+  left: "48%",
+};
+const containerMain = {
+  position: "relative",
+  backgroundColor: "#fff",
+  display: "flex",
+  justifyContent: "center",
+  top: "25%",
+  left: "3%",
+  width: "45%",
+  height: "67vh",
+  borderRadius: "1rem",
+};
 
-const formStyles = {
+const formStyle = {
+  padding: "3rem",
   display: "flex",
   flexDirection: "column",
-  marginTop: "15rem",
-  marginLeft: "8rem",
+  alignItems: "center",
   width: "100%",
 };
-const buttonStyles = {
-  marginTop: "2rem",
-  marginLeft: "1rem",
-  width: "60%",
-  height: "6.7vh",
-  textTransform: "none",
+const sxTextfield = {
+  "&.MuiFormControl-root": {
+    width: "100%",
+  },
+};
+const check = {
+  borderColor: "red",
 };
 
-export default function Login({ history }) {
-  const {values, errors, setErrors, setValues, handleInputChange,resetForm} = useForm(formInitialValues);
+const signupbutton = {
+  "&.MuiButton-root": {
+    color: "#fff",
+    backgroundColor: "#00008B",
+    textTransform: "none",
+    borderColor: "#fff",
+    width: "100%",
+    height: "6.7vh",
+    marginTop: "2rem",
+    marginBottom: "2rem",
+  },
+};
+const altsignin = {
+  textDecoration: "none",
+  textAlign: "center",
+  color: "#000",
+};
+const altsignup = { color: "#00008B", fontSize: "2rem" };
 
+export default function Login({ history }) {
+  const { values, errors, setErrors, setValues, handleInputChange, resetForm } =
+    useForm(formInitialValues);
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -48,71 +101,60 @@ export default function Login({ history }) {
     dispatch(login(values.email, values.password));
   };
   return (
-    <Box>
-      <Container component="main">
-      {error && <Box>{error}</Box>}
+    <Box sx={heroContent}>
+      <Box sx={logo}>
+        <img src={Logo} alt="usergif" />
+      </Box>
+      <Container sx={containerMain} component="main">
+        <Box sx={formStyle}>
+          {error && <Box>{error}</Box>}
           {loading && <Box>loading...</Box>}
-        <Form onSubmit={submitHandler}>
-          <Box sx={formStyles}>
-            <Box ml={1}>
-              <Typography component="h1" variant="h5">
-                <Typography component="h3" variant="div" color="#7b828c">
-                  Welcome back to{" "}
-                </Typography>
-                <Typography component="h3" variant="div" color="primary">
-                  Reward Engine{" "}
-                </Typography>
-              </Typography>
-            </Box>
-            <Box mt={2} ml={1} mb={2}>
-              <Typography
-                sx={{ opacity: 0.4 }}
-                component="h3"
-                variant="subtitle2"
-              >
-                Log in to your account.
-              </Typography>
-            </Box>
-            <Box container>
-              <Controls.Input
-                label="Email Address"
-                name="email"
-                value={values.email}
-                onChange={handleInputChange}
-              />
-              <Controls.Input
-                name="password"
-                label="Password"
-                type="password"
-                value={values.password}
-                onChange={handleInputChange}
-              />
+          <Form onSubmit={submitHandler}>
+            <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Typography ml={2} component="h5" variant="div" color="primary">
-                  <Link href="/forget-password" variant="div">
-                    Forgot Password?
-                  </Link>
+                <Controls.Input
+                  sx={sxTextfield}
+                  label="Email Address"
+                  name="email"
+                  value={values.email}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controls.Input
+                  sx={sxTextfield}
+                  name="password"
+                  label="Password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="subtitle2" textAlign="right">
+                  Forgot Password
                 </Typography>
               </Grid>
-              <Controls.Button
-                sx={buttonStyles}
-                type="submit"
-                text="Log In"
-                size="large"
-              />
-            </Box>
-            <Box container ml={2} mt={2}>
-              <Grid item>
-                <Typography component="h5" variant="div">
-                  Don't have an account? &nbsp;
-                  <Link href="/signup" variant="div">
-                    Sign Up
-                  </Link>
-                </Typography>
+
+              <Grid item xs={12}>
+                <Controls.Button
+                  sx={signupbutton}
+                  type="submit"
+                  variant="outlined"
+                  size="large"
+                  text="Sign in"
+                />
               </Grid>
-            </Box>
-          </Box>
-        </Form>
+            </Grid>
+            <Grid container>
+              <Grid item sx={altsignin}>
+                <Link href="/" variant="body2" sx={altsignin}>
+                  Already have an account? <span sx={altsignup}>Sign up</span>
+                </Link>
+              </Grid>
+            </Grid>
+          </Form>
+        </Box>
       </Container>
     </Box>
   );

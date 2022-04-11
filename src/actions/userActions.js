@@ -12,7 +12,7 @@ export const login = (email, password) => async (dispatch) => {
       };
   
       const { data } = await axios.post(
-        "https://femi123-api.herokuapp.com/api/v1/users/login",
+        "https://api.flyboku.aclient.xyz/login",
         { email, password },
         config
       );
