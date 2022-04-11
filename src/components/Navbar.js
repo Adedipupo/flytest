@@ -129,7 +129,7 @@ const Navbar = () => {
                   text="Sign in"
                 />
               </Link>
-              <Link href="/" variant="">
+              <Link href="/register" variant="">
                 <Controls.Button
                   sx={buttonStyles}
                   variant="outlined"

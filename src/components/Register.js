@@ -11,8 +11,8 @@ import { Controls } from "./Helpers/Controls";
 import { Form, useForm } from "./Helpers/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { login } from "../actions/userActions";
-import SignIn from "../assets/svg/signinbg.svg";
+import { register } from "../actions/userActions";
+import SignIn from "../assets/svg/signupbg.svg";
 import Logo from "../assets/svg/siginlogo.svg";
 import Button from "./Helpers/controls/Button";
 import Notification from "./Helpers/controls/Notification";
@@ -21,6 +21,7 @@ import Notification from "./Helpers/controls/Notification";
 const formInitialValues = {
   email: "",
   password: "",
+  password_confirmation: "",
 };
 const heroContent = {
   background: `url(${SignIn})`,
@@ -78,7 +79,7 @@ const altsignin = {
 };
 const altsignup = { color: "#00008B", fontSize: "2rem" };
 
-export default function Login({ history }) {
+export default function Register({ history }) {
   const validateForm = (fieldValues = values) => {
     let temp = { ...errors };
     if ("email" in fieldValues)
@@ -87,6 +88,10 @@ export default function Login({ history }) {
         : "Email is not valid";
     if ("password" in fieldValues)
       temp.password = fieldValues.password ? "" : "This field is required";
+    if ("password_confirmation" in fieldValues)
+      temp.password_confirmation = fieldValues.password_confirmation
+        ? ""
+        : "This field is required";
     setErrors({
       ...temp,
     });
@@ -107,8 +112,8 @@ export default function Login({ history }) {
     type: "",
   });
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
   const location = useLocation();
   const redirect = location.search ? location.search.split("=")[1] : "/";
@@ -122,11 +127,29 @@ export default function Login({ history }) {
   const submitHandler = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(login(values.email, values.password));
+      if (values.password !== values.password_confirmation) {
+        setNotify({
+          isOpen: true,
+          message: "Password do not match",
+          type: "error",
+        });
+      } else {
+        dispatch(
+          register(values.email, values.password, values.password_confirmation)
+        );
+      }
+    }
+    if (userInfo) {
       setNotify({
         isOpen: true,
-        message: "Submitted Successfully",
+        message: "Registered Successfully",
         type: "success",
+      });
+    } else {
+      setNotify({
+        isOpen: true,
+        message: error,
+        type: "error",
       });
     }
   };
@@ -138,11 +161,7 @@ export default function Login({ history }) {
         </Box>
         <Container sx={containerMain} component="main">
           <Box sx={formStyle}>
-            {error && (
-              <Box>
-                {error}
-              </Box>
-            )}
+            {error && <Box>{error}</Box>}
             {loading && <Box>loading...</Box>}
             <Form onSubmit={submitHandler}>
               <Grid container spacing={4}>
@@ -166,9 +185,14 @@ export default function Login({ history }) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="subtitle2" textAlign="right">
-                    Forgot Password
-                  </Typography>
+                  <Controls.Input
+                    sx={sxTextfield}
+                    name="Confirm Password"
+                    label="Confirm Password"
+                    type="password"
+                    value={values.password_confirmation}
+                    onChange={handleInputChange}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
@@ -177,19 +201,14 @@ export default function Login({ history }) {
                     type="submit"
                     variant="outlined"
                     size="large"
-                    text="Sign in"
+                    text="Sign up"
                   />
                 </Grid>
               </Grid>
               <Grid container>
                 <Grid item sx={altsignin}>
-                  <Link
-                    href=
-                      "/register"
-                    variant="body2"
-                    sx={altsignin}
-                  >
-                    Already have an account? <span sx={altsignup}>Sign up</span>
+                  <Link href="/login" variant="body2" sx={altsignin}>
+                    Already have an account? <span sx={altsignup}>Sign in</span>
                   </Link>
                 </Grid>
               </Grid>
