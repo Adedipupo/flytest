@@ -1,23 +1,42 @@
-
+import { useMemo, useState } from 'react';
 import './App.css'
-import { CssBaseline,Button, ThemeProvider } from '@mui/material'
+import { CssBaseline,Button,PaletteMode,ThemeProvider, createTheme } from '@mui/material'
 import { appTheme } from './themes/theme'
+import { darkTheme } from "./themes/dark";
+import { lightTheme } from "./themes/light";
+import { ColorContext } from "./ColorContext";
+import { SwitchModeButton } from './components/SwitchModeButton';
 
 function App() {
 
-  return (
-    <ThemeProvider theme={appTheme}>
-     <CssBaseline enableColorScheme />
+  const [mode, setMode] = useState<PaletteMode>("light");
 
-     <div style={{ margin: "1em" }}>
-        <Button color="primary" variant="contained">
-          Primary
-        </Button>
-        <Button color="secondary" variant="contained">
-          Secondary
-        </Button>
-      </div>
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode: PaletteMode) =>
+          prevMode === "light" ? "dark" : "light"
+        );
+      },
+    }),
+    []
+  );
+
+
+  const theme = useMemo(
+    () => createTheme(mode === "light" ? lightTheme : darkTheme),
+    [mode]
+  );
+
+  return (
+    <ColorContext.Provider value={colorMode}>
+
+    <ThemeProvider theme={theme}>
+     <CssBaseline enableColorScheme />
+     <SwitchModeButton />
     </ThemeProvider>
+    </ColorContext.Provider>
   )
 }
 
